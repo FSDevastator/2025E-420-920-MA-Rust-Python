@@ -27,6 +27,15 @@ source .venv/bin/activate
 pip install maturin
 ```
 
+### 2.1 Initialiser un nouveau projet Maturin (si vous partez de zéro)
+
+Cette étape est nécessaire uniquement si vous créez un nouveau projet.
+
+```bash
+maturin init --bindings pyo3 --name piledger
+```
+
+
 ### 3. Modifier le code Rust (optionnel)
 
 Le fichier principal se trouve dans `src/lib.rs`. Ce fichier contient :
