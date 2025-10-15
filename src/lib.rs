@@ -1,10 +1,12 @@
 use pyo3::prelude::*;
 use pyo3::exceptions::PyValueError;
+use std::default;
 use std::fs::File;
 use std::path::PathBuf;
 use csv::StringRecord;
 
 #[pyclass]
+#[derive(Default)]
 struct Account {
     #[pyo3(get, set)]
     name: String,
@@ -17,14 +19,32 @@ struct Account {
 #[pymethods]
 impl Account {
     #[new]
-    fn new(name: String, acc_type: String, number: usize) -> Self {
+    fn new() -> Self {
+        
+        Self::default()
+    }
+
+    #[staticmethod]
+    fn default() -> Self {
         Account {
-            name,
-            acc_type,
-            number,
+            name:"PlaceHolder".to_string(),
+            acc_type:"PlaceHolder".to_string(),
+            number : 0000
         }
     }
 
+    #[getter(acctname)]
+    pub fn get_name(&self) -> PyResult<&str> {
+        Ok(&self.name)
+    }
+
+    #[setter(acctname)]
+    pub fn set_name(&mut self, name:&str) -> PyResult<()> {
+        self.name = name.to_string();
+        Ok(())
+    }
+       
+    
     fn __repr__(&self) -> String {
         format!(
             "Account(name='{}', acc_type='{}', number={})",
